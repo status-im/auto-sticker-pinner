@@ -1,11 +1,16 @@
+IPFS_GATEWAY = "https://cloudflare-ipfs.com/ipfs"
+
 class StickerPack:
     # https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1577.md
     # All content hashes in Sticker Pack metadata have the same prefix.
     content_hash_rgx = r'e30101701220\w+'
 
-    def __init__(self, url):
-        resp = requests.get(url)
+    def __init__(self, chash):
+        self.content_hash = chash
+
+        resp = requests.get("{}/{}".format(IPFS_GATEWAY, chash))
         resp.raise_for_status()
+
         self.image_hashes = SticketPack.parse_clj_meta(resp.text)
 
     @staticmethod

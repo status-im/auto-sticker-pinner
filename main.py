@@ -17,4 +17,5 @@ w3 = Web3(Web3.HTTPProvider("http://localhost:8545"))
 
 s = StickerPackContract(STICKER_PACK_CONTRACT, STICKER_PACK_ABI, w3)
 
-print(s.getAllPacks())
+packs = s.getAllPacks()
+print(packs)

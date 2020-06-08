@@ -11,5 +11,13 @@ class StickerPackContract:
         )
 
     def getAllPacks(self):
-        return self.contract.functions.totalSupply().call()
-        #for i=0; i<stickerTypeContract stickerTypeContract.functions.getPackSummary(i)
+        count = self.contract.functions.totalSupply().call()
+        return [
+            self.contentHashFromPack(
+                self.contract.functions.getPackSummary(i).call()
+            ) for i in range(count)
+        ]
+
+    @staticmethod
+    def contentHashFromPack(pack):
+        return pack[2].hex()
