@@ -10,7 +10,7 @@ class StickerPackContract:
             abi=self.abi
         )
 
-    def getAllPacks(self):
+    def getAllPackHashes(self):
         count = self.contract.functions.totalSupply().call()
         return [
             self.contentHashFromPack(

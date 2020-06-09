@@ -1,3 +1,8 @@
+import re
+import requests
+
+from ipfs import ipfsBinToText
+
 IPFS_GATEWAY = "https://cloudflare-ipfs.com/ipfs"
 
 class StickerPack:
@@ -11,11 +16,11 @@ class StickerPack:
         resp = requests.get("{}/{}".format(IPFS_GATEWAY, chash))
         resp.raise_for_status()
 
-        self.image_hashes = SticketPack.parse_clj_meta(resp.text)
+        self.image_hashes = StickerPack.parse_clj_meta(resp.text)
 
     @staticmethod
     def parse_clj_meta(data):
         # Find all content hashes of images in the Clojure formatted metadata
-        matches = re.findall(SticketPack.content_hash_rgx, data)
+        matches = re.findall(StickerPack.content_hash_rgx, data)
         # IPFS can't handle EIP-1577 content hashes
-        return [content_hash.decode(ch) for ch in matches]
+        return [ipfsBinToText(ch) for ch in matches]

@@ -13,6 +13,10 @@ STICKER_PACKS_META_URLS = [
   "https://cloudflare-ipfs.com/ipfs/QmWpG2Q5NB472KLgFysdCjB8D1Qf9hxR2KNJvtCJQJufDj",
 ]
 
+# Converts binary content hash to text verison, see EIP-1577
+def ipfsBinToText(text):
+    return content_hash.decode(text)
+
 class IpfsPinner:
 
     def __init__(self, addr=ipfscluster.DEFAULT_ADDR):
