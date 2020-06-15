@@ -4,15 +4,6 @@ import requests
 import content_hash # https://pypi.org/project/content-hash
 import ipfscluster  # https://pypi.org/project/ipfscluster
 
-# TODO parametrize
-IPFS_CLUSTER_ADDR = 'http://localhost:9094'
-
-# TODO parametrize
-STICKER_PACKS_META_URLS = [
-  "https://cloudflare-ipfs.com/ipfs/QmWVVLwVKCwkVNjYJrRzQWREVvEk917PhbHYAUhA1gECTM",
-  "https://cloudflare-ipfs.com/ipfs/QmWpG2Q5NB472KLgFysdCjB8D1Qf9hxR2KNJvtCJQJufDj",
-]
-
 # Converts binary content hash to text verison, see EIP-1577
 def ipfsBinToText(text):
     return content_hash.decode(text)
@@ -22,10 +13,14 @@ class IpfsPinner:
     def __init__(self, addr=ipfscluster.DEFAULT_ADDR):
         self.client = ipfscluster.connect(addr)
 
-    def is_pinned(self, chash):
+    def statuses(self, chash):
         resp = self.client.pins.ls(chash)
-        statuses = [peer['status'] for peer in resp['peer_map'].values()]
-        return all(s == 'pinned' for s in statuses), statuses
+        return [peer['status'] for peer in resp['peer_map'].values()]
+
+    def is_pinned(self, chash):
+        return all(s == 'pinned' for s in self.statuses(chash))
 
     def pin(self, chash):
+        if self.is_pinned(chash):
+            return True
         return self.client.pins.add(chash)

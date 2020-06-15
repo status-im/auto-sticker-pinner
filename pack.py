@@ -24,3 +24,7 @@ class StickerPack:
         matches = re.findall(StickerPack.content_hash_rgx, data)
         # IPFS can't handle EIP-1577 content hashes
         return [ipfsBinToText(ch) for ch in matches]
+
+    def __repr__(self):
+        return '<Pack hash={} imgs={}>'.format(
+            self.content_hash, len(self.image_hashes))
