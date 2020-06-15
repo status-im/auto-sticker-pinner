@@ -27,6 +27,7 @@ for pack in packs:
     print("pack:", pack)
     rval = ipfs.pin(pack.content_hash)
     for chash in pack.image_hashes:
-        print("image:", chash)
-        ipfs.pin(pack.content_hash)
-        print("rval:", rval)
+        print('image:', chash)
+        pinned = ipfs.pin(chash)
+        if not pinned:
+            print('failed to pin:', chash)

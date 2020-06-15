@@ -14,8 +14,10 @@ class IpfsPinner:
         self.client = ipfscluster.connect(addr)
 
     def statuses(self, chash):
-        resp = self.client.pins.ls(chash)
-        return [peer['status'] for peer in resp['peer_map'].values()]
+        return [
+            peer['status'] for
+            peer in self.ls(chash)['peer_map'].values()
+        ]
 
     def is_pinned(self, chash):
         return all(s == 'pinned' for s in self.statuses(chash))
@@ -23,4 +25,9 @@ class IpfsPinner:
     def pin(self, chash):
         if self.is_pinned(chash):
             return True
-        return self.client.pins.add(chash)
+
+        rval = self.client.pins.add(chash)
+        return self.is_pinned(chash)
+
+    def ls(self, chash):
+        return self.client.pins.ls(chash)
