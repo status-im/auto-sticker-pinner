@@ -1,3 +1,3 @@
-content_hash==1.1.1
-ipfscluster==0.2.0
 web3==5.11.0
+content_hash==1.1.1
+git+git://gitlab.com:jakubgs/py-ipfs-cluster-api.git@58160875#egg=ipfscluster
