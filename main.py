@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import web3
+import json
 from web3 import Web3
 from optparse import OptionParser
 
@@ -8,19 +9,28 @@ from optparse import OptionParser
 from ipfs import IpfsPinner
 from pin import pinAllPacks
 from log import setup_custom_logger
+from watch import ContractWatcher
+from contract import StickerPackContract
+
+SPACK_CONTRACT = "0x0577215622f43a39F4Bc9640806DFea9b10D2A36"
+with open("./abi.json", "r") as f:
+    STICKER_PACK_ABI = json.load(f)
 
 HELP_DESCRIPTION='Utility for pinning images from Status Sticker packs.'
 HELP_EXAMPLE='Example: ./main.py -TODO'
 
 def parse_opts():
     parser = OptionParser(description=HELP_DESCRIPTION, epilog=HELP_EXAMPLE)
+
     parser.add_option('-g', '--geth-addr', default='http://localhost:8545',
                       help='IPFS Cluster API URL.')
     parser.add_option('-i', '--ipfs-addr', default='/dns/localhost/tcp/9094/http',
                       help='IPFS Cluster API MultiAddress.')
+    parser.add_option('-p', '--pin-all', default=False,
+                      help='If all packs should be pinned on start.')
     parser.add_option('-I', '--log-level', default='INFO',
                       help='Level of logging.')
-    
+
     return parser.parse_args()
 
 
@@ -37,11 +47,16 @@ def main():
     # for talking to IPFS cluster and pinning images
     ipfs = IpfsPinner(opts.ipfs_addr)
 
-    LOG.info('Pinning all existing packs...')
-    pinAllPacks(w3, ipfs)
+    # Get instance of sticker pack contract
+    contract = StickerPackContract(SPACK_CONTRACT, STICKER_PACK_ABI, w3)
 
-    #block_filter = w3.eth.filter('latest')
-    #log_loop(block_filter, 2)
+    if opts.pin_all:
+        LOG.info('Pinning all existing packs...')
+        pinAllPacks(ipfs, contract)
+
+    global watcher
+    watcher = ContractWatcher(w3, contract)
+    watcher.loop('ContenthashChanged')
 
 if __name__ == '__main__':
     main()
