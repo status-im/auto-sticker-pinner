@@ -18,12 +18,12 @@ HELP_EXAMPLE='Example: ./main.py --pin-all=true --events=ContenthashChanged'
 def parse_opts():
     parser = OptionParser(description=HELP_DESCRIPTION, epilog=HELP_EXAMPLE)
 
+    parser.add_option('-p', '--pin-all', action='store_true', default=False,
+                      help='If all packs should be pinned on start.')
     parser.add_option('-g', '--geth-addr', default='http://localhost:8545',
                       help='IPFS Cluster API URL.')
     parser.add_option('-i', '--ipfs-addr', default='/dns/localhost/tcp/9094/http',
                       help='IPFS Cluster API MultiAddress.')
-    parser.add_option('-p', '--pin-all', default=False,
-                      help='If all packs should be pinned on start.')
     parser.add_option('-e', '--events', default='ContenthashChanged,Register',
                       help='Contract events to watch for.')
     parser.add_option('-c', '--contract', default='0x0577215622f43a39F4Bc9640806DFea9b10D2A36',
