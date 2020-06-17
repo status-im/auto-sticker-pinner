@@ -1,3 +1,4 @@
 web3==5.11.0
 content_hash==1.1.1
-git+git://gitlab.com:jakubgs/py-ipfs-cluster-api.git@58160875#egg=ipfscluster
+ipfshttpclient==0.4.13.2
+git+https://gitlab.com/jakubgs/py-ipfs-cluster-api.git@58160875#egg=ipfscluster

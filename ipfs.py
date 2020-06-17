@@ -9,9 +9,10 @@ def ipfsBinToText(text):
     return content_hash.decode(text)
 
 class IpfsPinner:
+    
 
     def __init__(self, addr=ipfscluster.DEFAULT_ADDR):
-        self.client = ipfscluster.connect(addr)
+        self.cluster = ipfscluster.connect(addr)
 
     def statuses(self, chash):
         return [
@@ -26,8 +27,8 @@ class IpfsPinner:
         if self.is_pinned(chash):
             return True
 
-        rval = self.client.pins.add(chash)
+        rval = self.cluster.pins.add(chash)
         return self.is_pinned(chash)
 
     def ls(self, chash):
-        return self.client.pins.ls(chash)
+        return self.cluster.pins.ls(chash)
