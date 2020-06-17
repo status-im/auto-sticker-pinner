@@ -24,6 +24,7 @@ FROM alpine:3.11
 RUN apk add --no-cache python3
 
 RUN mkdir /app
+WORKDIR /app
 COPY --from=python-build /app/. /app/
 
 ENV VIRTUAL_ENV=/app/venv

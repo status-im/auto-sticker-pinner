@@ -28,6 +28,8 @@ def parse_opts():
                       help='Contract events to watch for.')
     parser.add_option('-c', '--contract', default='0x0577215622f43a39F4Bc9640806DFea9b10D2A36',
                       help='Sticker Pack contract address.')
+    parser.add_option('-a', '--abi-file', default='./abi.json',
+                      help='JSON file with Contract ABI specification.')
     parser.add_option('-I', '--log-level', default='INFO',
                       help='Level of logging.')
 
@@ -48,7 +50,7 @@ def main():
     ipfs = IpfsPinner(opts.ipfs_addr)
 
     # Read Sticker Pack contract ABI
-    with open("./abi.json", "r") as f:
+    with open(opts.abi_file, "r") as f:
         contract_abi = json.load(f)
 
     # Get instance of sticker pack contract
