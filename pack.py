@@ -36,7 +36,7 @@ class StickerPack:
         LOG.info('Pinning: %s', self)
         for chash in self.image_hashes + [self.content_hash]:
             LOG.debug('Pinning hash: %s', chash)
-            pinned = self.ipfs.pin(chash)
+            pinned = ipfs.pin(chash)
             if pinned:
                 LOG.debug('Successfully pinned: %s', chash)
             else:
