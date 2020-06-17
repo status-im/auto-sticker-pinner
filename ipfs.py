@@ -1,6 +1,7 @@
 import re
 import json
 import requests
+import multiaddr
 import content_hash # https://pypi.org/project/content-hash
 import ipfscluster  # https://pypi.org/project/ipfscluster
 
@@ -11,7 +12,8 @@ def ipfsBinToText(text):
 class IpfsPinner:
     
 
-    def __init__(self, addr=ipfscluster.DEFAULT_ADDR):
+    def __init__(self, addr='/dns/localhost/tcp/9094/http'):
+        self.address = multiaddr.Multiaddr(addr)     
         self.cluster = ipfscluster.connect(addr)
 
     def statuses(self, chash):

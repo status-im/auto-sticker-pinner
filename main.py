@@ -9,11 +9,15 @@ from ipfs import IpfsPinner
 from pin import pinAllPacks
 from log import setup_custom_logger
 
-HELP_DESCRIPTION='This is a simple utility for cleaning ElasticSearch indices.'
-HELP_EXAMPLE='Example: ./esclean.py -i "logstash-2019.11.*" -p beacon -d'
+HELP_DESCRIPTION='Utility for pinning images from Status Sticker packs.'
+HELP_EXAMPLE='Example: ./main.py -TODO'
 
 def parse_opts():
     parser = OptionParser(description=HELP_DESCRIPTION, epilog=HELP_EXAMPLE)
+    parser.add_option('-g', '--geth-addr', default='http://localhost:8545',
+                      help='IPFS Cluster API URL.')
+    parser.add_option('-i', '--ipfs-addr', default='/dns/localhost/tcp/9094/http',
+                      help='IPFS Cluster API MultiAddress.')
     parser.add_option('-I', '--log-level', default='INFO',
                       help='Level of logging.')
     
@@ -25,13 +29,13 @@ def main():
 
     LOG = setup_custom_logger('root', opts.log_level)
 
-    LOG.info('Connecting to Geth RPC: %s', 'TODO')
+    LOG.info('Connecting to Geth RPC: %s', opts.geth_addr)
     # web3 instance for talking to Geth RPC
-    w3 = Web3(Web3.HTTPProvider("http://localhost:8545"))
+    w3 = Web3(Web3.HTTPProvider(opts.geth_addr))
 
-    LOG.info('Connecting to IPFS Cluster: %s', 'TODO')
+    LOG.info('Connecting to IPFS Cluster: %s', opts.ipfs_addr)
     # for talking to IPFS cluster and pinning images
-    ipfs = IpfsPinner()
+    ipfs = IpfsPinner(opts.ipfs_addr)
 
     LOG.info('Pinning all existing packs...')
     pinAllPacks(w3, ipfs)
