@@ -30,12 +30,11 @@ Utility for pinning images from Status Sticker packs.
 
 Options:
   -h, --help            show this help message and exit
+  -p, --pin-all         If all packs should be pinned on start.
   -g GETH_ADDR, --geth-addr=GETH_ADDR
                         IPFS Cluster API URL.
   -i IPFS_ADDR, --ipfs-addr=IPFS_ADDR
                         IPFS Cluster API MultiAddress.
-  -p PIN_ALL, --pin-all=PIN_ALL
-                        If all packs should be pinned on start.
   -e EVENTS, --events=EVENTS
                         Contract events to watch for.
   -c CONTRACT, --contract=CONTRACT
@@ -59,6 +58,13 @@ This software:
   - Pins the Sticker Pack metadata file
   - Extracts from the metadata file image hashes
   - Pins the Sticker pack images to the IPFS cluster
+
+# Docker Image
+
+You can build a Docker image with:
+```
+docker build -t statusteam/auto-sticker-pinner:latest .
+```
 
 # Known Issues
 
