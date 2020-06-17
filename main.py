@@ -28,6 +28,8 @@ def parse_opts():
                       help='IPFS Cluster API MultiAddress.')
     parser.add_option('-p', '--pin-all', default=False,
                       help='If all packs should be pinned on start.')
+    parser.add_option('-e', '--events', default=['ContenthashChanged', 'Register'],
+                      help='Contract events to watch for.')
     parser.add_option('-I', '--log-level', default='INFO',
                       help='Level of logging.')
 
@@ -55,8 +57,9 @@ def main():
         pinAllPacks(ipfs, contract)
 
     global watcher
-    watcher = ContractWatcher(w3, contract)
-    watcher.loop('ContenthashChanged')
+    LOG.info('Watching for events: %s', opts.events)
+    watcher = ContractWatcher(w3, ipfs, contract)
+    watcher.loop(opts.events)
 
 if __name__ == '__main__':
     main()
