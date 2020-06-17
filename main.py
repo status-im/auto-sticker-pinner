@@ -2,14 +2,28 @@
 
 import web3
 from web3 import Web3
+from optparse import OptionParser
 
 # Local modules
 from ipfs import IpfsPinner
 from pin import pinAllPacks
 from log import setup_custom_logger
 
+HELP_DESCRIPTION='This is a simple utility for cleaning ElasticSearch indices.'
+HELP_EXAMPLE='Example: ./esclean.py -i "logstash-2019.11.*" -p beacon -d'
+
+def parse_opts():
+    parser = OptionParser(description=HELP_DESCRIPTION, epilog=HELP_EXAMPLE)
+    parser.add_option('-I', '--log-level', default='INFO',
+                      help='Level of logging.')
+    
+    return parser.parse_args()
+
+
 def main():
-    LOG = setup_custom_logger('root')
+    (opts, args) = parse_opts()
+
+    LOG = setup_custom_logger('root', opts.log_level)
 
     LOG.info('Connecting to Geth RPC: %s', 'TODO')
     # web3 instance for talking to Geth RPC
