@@ -1,7 +1,10 @@
 import json
+import logging
 
 from contract import StickerPackContract
 from pack import StickerPack, ipfsBinToText
+
+LOG = logging.getLogger('root')
 
 SPACK_CONTRACT = "0x0577215622f43a39F4Bc9640806DFea9b10D2A36"
 with open("./abi.json", "r") as f:
@@ -19,10 +22,10 @@ def pinAllPacks(w3, ipfs):
     
     # Iterate over packs and make sure they are all pinned
     for pack in packs:
-        print("pack:", pack)
+        LOG.info('Pinning: %s', pack)
         rval = ipfs.pin(pack.content_hash)
         for chash in pack.image_hashes:
-            print('image:', chash)
+            LOG.debug('Pinning image: %s', chash)
             pinned = ipfs.pin(chash)
             if not pinned:
-                print('failed to pin:', chash)
+                LOG.error('Failed to pin image: %s', chash)
