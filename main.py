@@ -13,7 +13,7 @@ from watch import ContractWatcher
 from contract import StickerPackContract
 
 HELP_DESCRIPTION='Utility for pinning images from Status Sticker packs.'
-HELP_EXAMPLE='Example: ./main.py -TODO'
+HELP_EXAMPLE='Example: ./main.py --pin-all=true --events=ContenthashChanged'
 
 def parse_opts():
     parser = OptionParser(description=HELP_DESCRIPTION, epilog=HELP_EXAMPLE)
@@ -24,7 +24,7 @@ def parse_opts():
                       help='IPFS Cluster API MultiAddress.')
     parser.add_option('-p', '--pin-all', default=False,
                       help='If all packs should be pinned on start.')
-    parser.add_option('-e', '--events', default=['ContenthashChanged', 'Register'],
+    parser.add_option('-e', '--events', default='ContenthashChanged,Register',
                       help='Contract events to watch for.')
     parser.add_option('-c', '--contract', default='0x0577215622f43a39F4Bc9640806DFea9b10D2A36',
                       help='Sticker Pack contract address.')
@@ -61,7 +61,7 @@ def main():
     global watcher
     LOG.info('Watching for events: %s', opts.events)
     watcher = ContractWatcher(w3, ipfs, contract)
-    watcher.loop(opts.events)
+    watcher.loop(opts.events.split(','))
 
 if __name__ == '__main__':
     main()
