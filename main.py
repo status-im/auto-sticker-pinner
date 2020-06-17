@@ -30,7 +30,7 @@ def parse_opts():
                       help='Sticker Pack contract address.')
     parser.add_option('-a', '--abi-file', default='./abi.json',
                       help='JSON file with Contract ABI specification.')
-    parser.add_option('-I', '--log-level', default='INFO',
+    parser.add_option('-l', '--log-level', default='INFO',
                       help='Level of logging.')
 
     return parser.parse_args()
@@ -39,7 +39,7 @@ def parse_opts():
 def main():
     (opts, args) = parse_opts()
 
-    LOG = setup_custom_logger('root', opts.log_level)
+    LOG = setup_custom_logger('root', opts.log_level.upper())
 
     LOG.info('Connecting to Geth RPC: %s', opts.geth_addr)
     # web3 instance for talking to Geth RPC
