@@ -13,12 +13,4 @@ def pinAllPacks(ipfs, contract):
     
     # Iterate over packs and make sure they are all pinned
     for pack in packs:
-        LOG.info('Pinning: %s', pack)
-        rval = ipfs.pin(pack.content_hash)
-        for chash in pack.image_hashes:
-            LOG.debug('Pinning image: %s', chash)
-            pinned = ipfs.pin(chash)
-            if pinned:
-                LOG.debug('Successfully pinned: %s', chash)
-            else:
-                LOG.error('Failed to pin image: %s', chash)
+        pack.pin(ipfs)
