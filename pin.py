@@ -18,5 +18,7 @@ def pinAllPacks(ipfs, contract):
         for chash in pack.image_hashes:
             LOG.debug('Pinning image: %s', chash)
             pinned = ipfs.pin(chash)
-            if not pinned:
+            if pinned:
+                LOG.debug('Successfully pinned: %s', chash)
+            else:
                 LOG.error('Failed to pin image: %s', chash)

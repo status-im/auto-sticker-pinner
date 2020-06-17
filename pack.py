@@ -1,7 +1,10 @@
 import re
 import requests
+import logging
 
 from ipfs import ipfsBinToText
+
+LOG = logging.getLogger('root')
 
 IPFS_GATEWAY = "https://cloudflare-ipfs.com/ipfs"
 
@@ -28,3 +31,13 @@ class StickerPack:
     def __repr__(self):
         return '<Pack hash={} imgs={}>'.format(
             self.content_hash, len(self.image_hashes))
+
+    def pin(self, ipfs):
+        LOG.info('Pinning: %s', self)
+        for chash in self.image_hashes + [self.content_hash]:
+            LOG.debug('Pinning hash: %s', chash)
+            pinned = self.ipfs.pin(chash)
+            if pinned:
+                LOG.debug('Successfully pinned: %s', chash)
+            else:
+                LOG.error('Failed to pin image: %s', chash)

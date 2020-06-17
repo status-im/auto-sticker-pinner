@@ -13,6 +13,7 @@ from watch import ContractWatcher
 from contract import StickerPackContract
 
 SPACK_CONTRACT = "0x0577215622f43a39F4Bc9640806DFea9b10D2A36"
+#SPACK_CONTRACT = "0x8cc272396Be7583c65BEe82CD7b743c69A87287D" # Goerli
 with open("./abi.json", "r") as f:
     STICKER_PACK_ABI = json.load(f)
 

@@ -1,6 +1,8 @@
 import time
 import logging
 
+from pack import StickerPack, ipfsBinToText
+
 LOG = logging.getLogger('root')
 
 def getAllEvents(event_filters):
@@ -21,9 +23,9 @@ class ContractWatcher:
         while True:
             for event in getAllEvents(event_filters):
                 LOG.info('Event: %s', event['event'])
-                content_hash = event['args']['contenthash']
-                LOG.info('Pinning: %s', content_hash)
-                self.ipfs.pin(content_hash)
+                pack_chash = ipfsBinToText(event['args']['contenthash'].hex())
+                pack = StickerPack(pack_chash)
+                pack.pin(self.ipfs)
 
             LOG.debug('Sleeping for: %ss', interval)
             time.sleep(interval)
