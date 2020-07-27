@@ -39,7 +39,7 @@ def parse_opts():
 def main():
     (opts, args) = parse_opts()
 
-    LOG = setup_custom_logger('root', opts.log_level.upper())
+    LOG = setup_custom_logger('root', level=opts.log_level.upper())
 
     LOG.info('Connecting to Geth RPC: %s', opts.geth_addr)
     # web3 instance for talking to Geth RPC

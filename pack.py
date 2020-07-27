@@ -34,10 +34,14 @@ class StickerPack:
 
     def pin(self, ipfs):
         LOG.info('Pinning: %s', self)
-        for chash in self.image_hashes + [self.content_hash]:
+        for chash in [self.content_hash] + self.image_hashes:
             LOG.debug('Pinning hash: %s', chash)
-            pinned = ipfs.pin(chash)
-            if pinned:
-                LOG.debug('Successfully pinned: %s', chash)
-            else:
+            status = ipfs.pin(chash)
+            if status == 'pinned':
+                LOG.info('Successfully pinned: %s', chash)
+            elif status == 'pinning':
+                LOG.info('Pinning in progress: %s', chash)
+            elif status == 'failed':
                 LOG.error('Failed to pin image: %s', chash)
+            else:
+                LOG.warning('Content status: %s, %s', status, chash)
