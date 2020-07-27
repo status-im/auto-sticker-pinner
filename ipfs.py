@@ -22,6 +22,7 @@ class IpfsPinner:
             peer in self.ls(chash)['peer_map'].values()
         ]
 
+    # See: https://cluster.ipfs.io/documentation/guides/pinning/
     def status(self, chash):
         statuses = self.statuses(chash)
         if all(s == 'pinned' for s in statuses):

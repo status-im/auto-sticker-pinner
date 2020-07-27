@@ -70,3 +70,5 @@ docker build -t statusteam/auto-sticker-pinner:latest .
 
 * Currently IPFS Cluster API does not expose any info about possible pinning errors
   - We run `GET /pin/{chash}` to check if it was pinned as an alternative
+* Checking pin status for a cluster returns multiple statuses
+  - We check if all of them are of certain type, and ignore other mixed states
