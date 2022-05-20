@@ -1,12 +1,13 @@
 import re
 import requests
 import logging
+import os
 
 from ipfs import ipfsBinToText
 
 LOG = logging.getLogger('root')
 
-IPFS_GATEWAY = "https://cloudflare-ipfs.com/ipfs"
+IPFS_GATEWAY = os.environ.get('IPFS_GATEWAY','https://gateway.ipfs.io/ipfs')
 
 class StickerPack:
     # https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1577.md
